@@ -1,25 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { jsPDF } from 'jspdf';
 
-function App() {
+// `addFileToVFS` でフォントファイルをプロジェクト内で指定
+const App = () => {
+  const generatePDF = () => {
+    const doc = new jsPDF();
+
+    // フォントのバーチャルファイルシステムへの登録
+    doc.addFileToVFS('NotoSansJP-Regular.ttf', '/fonts/NotoSansJP-Regular.ttf');
+    doc.setFont('NotoSansJP', 'normal'); // フォントを設定
+
+    // 日本語テキストを設定
+    doc.text("こんにちは、jsPDF!", 10, 10);  // 日本語テキストをPDFに追加
+
+    // PDFを保存
+    doc.save('table_sample.pdf');
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>jsPDF Demo with Japanese Font</h1>
+      <button onClick={generatePDF}>PDFを生成</button>
     </div>
   );
-}
+};
 
 export default App;
